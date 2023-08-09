@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('mark_id');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->integer('voltage');
+            $table->integer('tension');
             $table->timestamps();
             $table->softDeletes();
 
