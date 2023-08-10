@@ -22,7 +22,7 @@ class ProductRepository implements ProductInterface
      */
     public function getAll(): Paginator
     {
-        return $this->product->orderBy('id', 'desc')->paginate(10);
+        return $this->product->with('mark')->orderBy('id', 'desc')->paginate(10);
     }
 
     /**
