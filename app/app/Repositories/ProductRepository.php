@@ -3,15 +3,16 @@
 namespace App\Repositories;
 
 use App\Interfaces\ProductInterface;
+use App\Models\Mark;
 use App\Models\Product;
 use Illuminate\Contracts\Pagination\Paginator;
 
 class ProductRepository implements ProductInterface
 {
     /**
-     * The function is a constructor that takes a Product object as a parameter.
+     * The function is a constructor that takes a Product and Mark object as parameters.
      */
-    public function __construct(private Product $product)
+    public function __construct(private Product $product, private Mark $mark)
     {
     }
 
@@ -102,5 +103,15 @@ class ProductRepository implements ProductInterface
     public function delete(int $id): bool
     {
         return $this->product->destroy($id);
+    }
+
+    /**
+     * The function fetches all marks from the database and returns them in a paginated format.
+     * 
+     * @return Paginator a Paginator object.
+     */
+    public function fetchAllMarks(): Paginator
+    {
+        return $this->mark->orderBy('name', 'desc')->paginate(10);
     }
 }

@@ -113,4 +113,16 @@ class ProductController extends Controller
 
         return response()->noContent();
     }
+
+    /**
+     * The function "mark" retrieves all marks from the product repository and returns them as a collection
+     * of anonymous resources.
+     * 
+     * @return AnonymousResourceCollection an AnonymousResourceCollection of ProductResource objects.
+     */
+    public function mark(): AnonymousResourceCollection
+    {
+        $marks = $this->productRepository->fetchAllMarks();
+        return ProductResource::collection($marks);
+    }
 }
