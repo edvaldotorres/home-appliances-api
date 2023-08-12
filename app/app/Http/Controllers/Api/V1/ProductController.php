@@ -21,31 +21,23 @@ class ProductController extends Controller
     }
 
     /**
-     * The index function retrieves all products from the product repository and returns them as a
-     * collection of product resources.
+     * The index function retrieves products based on a search query and returns them as a collection of
+     * ProductResource.
+     * 
+     * @param Request request The `` parameter is an instance of the `Illuminate\Http\Request`
+     * class. It represents an incoming HTTP request and contains information such as the request method,
+     * headers, query parameters, and request body.
      * 
      * @return AnonymousResourceCollection an instance of the `AnonymousResourceCollection` class.
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
-        $products = $this->productRepository->getAll();
-        return ProductResource::collection($products);
-    }
+        $search = $request->query('search');
+        $products = $search
+            ? $this->productRepository->searchProduct($search, $request->perPage)
+            : $this->productRepository->getAll();
 
-    /**
-     * The search function in PHP takes a search term and a number of results per page, searches for
-     * products matching the search term, and returns a collection of product resources.
-     * 
-     * @param Request request The `` parameter is an instance of the `Illuminate\Http\Request`
-     * class. It represents the current HTTP request made to the server and contains information such as
-     * the request method, headers, query parameters, and request body.
-     * 
-     * @return AnonymousResourceCollection an AnonymousResourceCollection of ProductResource objects.
-     */
-    public function search(Request $request): AnonymousResourceCollection
-    {
-        $data = $this->productRepository->searchProduct($request->search, $request->perPage);
-        return ProductResource::collection($data);
+        return ProductResource::collection($products);
     }
 
     /**

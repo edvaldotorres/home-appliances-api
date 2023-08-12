@@ -41,7 +41,7 @@ class ProductRepository implements ProductInterface
     {
         $perPage = isset($perPage) ? intval($perPage) : 10;
 
-        return $this->product->where('name', 'like', '%' . $keyword . '%')
+        return $this->product->with('mark')->where('name', 'like', '%' . $keyword . '%')
             ->orWhere('description', 'like', '%' . $keyword . '%')
             ->orderBy('id', 'desc')
             ->paginate($perPage);
