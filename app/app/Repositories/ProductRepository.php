@@ -62,16 +62,16 @@ class ProductRepository implements ProductInterface
     }
 
     /**
-     * The function getByID retrieves a Product object by its ID, or returns null if no product is found.
+     * The function getByID retrieves a product with its associated mark by its ID.
      * 
-     * @param int id The "id" parameter is an integer that represents the unique identifier of a product.
+     * @param int id The "id" parameter is an integer that represents the unique identifier of the product
+     * you want to retrieve.
      * 
-     * @return ?Product The method is returning an instance of the Product class or null if no product is
-     * found with the given ID.
+     * @return ?Product The method is returning a Product object with its associated mark.
      */
     public function getByID(int $id): ?Product
     {
-        return $this->product->findOrFail($id);
+        return $this->product->with('mark')->findOrFail($id);
     }
 
     /**
